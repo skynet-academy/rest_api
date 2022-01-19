@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <link rel="stylesheet" type="text/css" href="{% static 'frontend/style.css' %}">
+    <link rel="icon" type="image/gif" href="">
+    <title></title>
+</head>
+<body>
+    <section class="todo-list">
+        <h1>My ToDo list</h1>
+        <fieldset>
+            <form id="form" action="">
+                <section id="title-wrapper" >
+                    <input id="title" type="text" placeholder=" Add your task">
+                </section>
+                <section id="task-wrapper">
+                    <input id="submitButton" type="submit" value="Add">
+                </section>
+                <div id="list-wrapper"></div>
+            </form>
+        </fieldset>
+    </section>
+    <script src="{% static 'api/js/api.js' %}"></script>
+</body>
+</html>
