@@ -22,12 +22,17 @@ let addTask = (element) => {
     let item = 
     `
     <div class="data">
-        <span id="title">${element['title']}</span>
+        <span class="titleAdded">${element['title']}</span>
         <button class="buttonEdit" type="button">Edit</button>
-        <button class="delete" type="button">-</button>
+        <button class="buttonDelete" type="button">-</button>
     </div>
     `
     wrapper.innerHTML += item
+    let editBtn = document.getElementsByClassName('buttonEdit')
+    let deleteBtn = document.getElementsByClassName('buttonDelete')
+    let title = document.getElementsByClassName('titleAdded')
+    editBtn.addEventListener('click', Edit)
+    )
 }
 
 let buildList = () =>{
@@ -62,4 +67,42 @@ form.addEventListener('submit', function(e){
         }
         )
 })
+let updateItem = (item) =>{
+    activeItem = item
+    document.getElementById('title').value = activeItem.title
+    url = `/api/task-update/${item.id}/`
+    fetch(url,{
+        method: 'POST',
+        headers: {'Content-type': 'application/json', 'X-CSRFToken': csrftoken,},
+        body: JSON.stringify({'title':title, 'completed': item.completed}) 
+    })
+    .then((response) =>{
+        buildList()
+    })
+}
+
+let deleteItem = (item) =>{
+    url = `/api/task-delete/${item.id}`
+    fetch(url, {
+        method: 'DELETE',
+        headers: {'Content-type':'application/json', 'X-CSRFToken': csrftoken}
+    })
+    .then((response) =>{
+        buildList()
+    })
+}
+
+let strikeUnstrike = (item) =>{
+    item.completed = !item.completed
+    url = `/api/task-update/${item.id}/`
+    fetch(url,{
+        method: 'POST',
+        headers: {'Content-type': 'application/json', 'X-CSRFToken': csrftoken,},
+        body: JSON.stringify({'title':title, 'completed': item.completed}) 
+    })
+    .then((response) =>{
+        buildList()
+    })
+}
+
 
