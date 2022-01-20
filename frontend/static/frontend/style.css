@@ -1,0 +1,106 @@
+.todo-list{
+    width: 80%;
+    margin: 2rem auto;
+}
+.todo-list h1{
+    text-align: center;
+}
+
+#form{
+    display: flex;
+    width: 80%;
+    margin: 2rem auto;
+
+}
+
+#title-wrapper{
+    width: 60%;
+}
+
+#title{
+    width:80%;
+    height: 25px;
+    border: 2px solid #014A8E;
+    border-radius: 5px;
+    color: #00000F;
+}
+
+#task-wrapper{
+    width: 40%;
+}
+
+#submitButton{
+    height: 30px;
+    border: 2px solid #00cc66;
+    border-radius: 5px;
+    color: #00000F;
+    cursor: pointer;
+    padding: 0 10px;
+    background-color: white;
+}
+
+#submitButton:hover{
+    background-color: #00000F;
+    color: white ;
+}
+
+#list-wrapper{
+    width: 80%;
+    margin: 2rem auto;
+}
+
+.data{
+    width: 100%;
+    margin: 1rem auto;
+    display: flex;
+}
+
+.titleAdded{
+    width: 80%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.titleAdded:hover{
+    background-color: #f2f2f2;
+}
+
+.buttonEdit{
+    width: 10%;
+    border-radius: 10px;
+    border: 1px solid green;
+    color: green;
+    background-color: white;
+    cursor: pointer;
+    text-align: center;
+    margin: 2px;
+}
+
+.buttonEdit:hover{
+    background-color: green;
+    color: white;
+}
+
+.buttonDelete{
+    width: 10%;
+    border-radius: 10px;
+    border: 1px solid red;
+    color: red;
+    background-color: white;
+    cursor: pointer;
+    text-align: center;
+    margin: 2px;
+}
+
+.buttonDelete:hover{
+    background-color: red;
+    color: white;
+}
+
+
+
+
+
+
+

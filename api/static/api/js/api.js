@@ -1,5 +1,3 @@
-let wrapper = document.getElementById('list-wrapper')
-
 function getCookie(name){
     let cookieValue = null;
     if (document.cookie && document.cookie !== ''){
@@ -18,16 +16,19 @@ function getCookie(name){
 }
 
 const csrftoken = getCookie('csrftoken');
+
 //////////////////////
+
+let wrapper = document.getElementById('list-wrapper')
 
 let updateItem = (item) =>{
     activeItem = item
     document.getElementById('title').value = activeItem.title
-    url = `/api/task-update/${item.id}/`
+    url = `/api/task-update/${item.id}`
     fetch(url,{
         method: 'POST',
         headers: {'Content-type': 'application/json', 'X-CSRFToken': csrftoken,},
-        body: JSON.stringify({'title':title, 'completed': item.completed}) 
+        body: JSON.stringify({'title':item.title, 'completed': item.completed}) 
     })
     .then((response) =>{
         buildList()
@@ -46,12 +47,12 @@ let deleteItem = (item) =>{
 }
 
 let strikeUnstrike = (item) =>{
-    item.completed = !item.completed
-    url = `/api/task-update/${item.id}/`
+    let completed = !item.completed
+    url = `/api/task-update/${item.id}`
     fetch(url,{
         method: 'POST',
-        headers: {'Content-type': 'application/json', 'X-CSRFToken': csrftoken,},
-        body: JSON.stringify({'title':title, 'completed': item.completed}) 
+        headers: {'Content-type': 'application/json', 'X-CSRFToken': csrftoken},
+        body: JSON.stringify({'title':item.title, 'completed': completed}) 
     })
     .then((response) =>{
         buildList()
@@ -59,15 +60,39 @@ let strikeUnstrike = (item) =>{
 }
 
 let addTask = (element) => {
-    let item = 
-    `
-    <div class="data">
-        <span class="titleAdded">${element['title']}</span>
-        <button class="buttonEdit" type="button">Edit</button>
-        <button class="buttonDelete" type="button">-</button>
-    </div>
-    `
-    wrapper.innerHTML += item
+    let div = document.createElement('div')
+    let span = document.createElement('span')
+    let buttonEdit = document.createElement('button')
+    let buttonDelete = document.createElement('button')
+    div.className = "data"
+    
+    span.className = "titleAdded"
+    span.innerHTML = element.title
+    element.completed ? span.style.textDecoration = "line-through": span.style.textDecoration = "none"
+    span.addEventListener('click', function(){
+        strikeUnstrike(element)
+    })
+
+    buttonEdit.className = "buttonEdit"
+    buttonEdit.addEventListener('click', function(){
+        updateItem(element) 
+    })
+
+    buttonEdit.type = "button"
+    buttonEdit.innerHTML = "E"
+
+    buttonDelete.className = "buttonDelete"
+    buttonDelete.type = "button"
+    buttonDelete.innerHTML = "x"
+    buttonDelete.addEventListener('click', function(){
+        deleteItem(element)       
+    })
+
+    div.appendChild(span)
+    div.appendChild(buttonEdit)
+    div.appendChild(buttonDelete)
+
+    wrapper.appendChild(div)
 }
 
 let buildList = () =>{
@@ -79,14 +104,8 @@ let buildList = () =>{
         })
         .then((response) => response.json())
         .then(function(data){
+            wrapper.innerHTML = "";
             [...data].forEach((element) =>{addTask(element)})
-            let myList = document.getElementsByClassName('data');
-            [...myList].forEach((a) =>{
-                a.children[0].addEventListener('click', function(){ console.log('titleAdded')})
-                a.children[1].addEventListener('click', function(){ console.log('buttonEdit')})
-                a.children[2].addEventListener('click', function(){ console.log('buttonDelete')})
-            })
-            console.log('working')
         })
 }
 
@@ -102,7 +121,6 @@ form.addEventListener('submit', function(e){
             body: JSON.stringify({'title':title})
         }
         ).then((response)=>{
-            document.getElementById('list-wrapper').innerHTML = ""
             buildList()
             document.getElementById('title').value = ''
         })
